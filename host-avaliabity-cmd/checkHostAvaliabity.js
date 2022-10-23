@@ -22,6 +22,23 @@ function checkHostAvaliabity(args) {
     // tak samo jak funkcja exec, ktora po zwroceniu tego elementu, wykonuje funkcje wyswietlania
     setInterval(async () => {
         fullElementsList.forEach((element, index, arr) => {
+            var netstatCheck = element.host.split('.')
+            if (netstatCheck.length == 1) {
+                exec(`netstat -ano | find "${element.host}" | find "LISTEN"`, (error, stdout, stderr) => {
+                    if (error) {
+                        arr[index] = newElementParameters(arr[index], false)
+                        return
+                    }
+
+                    if (stderr) {
+                        arr[index] = newElementParameters(arr[index], false)
+                        return
+                    }
+
+                    arr[index] = newElementParameters(arr[index], true)
+                })
+                return
+            }
             exec(`ping ${element.host} -n 1 -w ${CHECK_TIME}`, (error, stdout, stderr) => {
                 if (error) {
                     arr[index] = newElementParameters(arr[index], false)
