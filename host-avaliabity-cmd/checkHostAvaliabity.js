@@ -39,6 +39,7 @@ function checkHostAvaliabity(args) {
                 })
                 return
             }
+
             exec(`ping ${element.host} -n 1 -w ${CHECK_TIME}`, (error, stdout, stderr) => {
                 if (error) {
                     arr[index] = newElementParameters(arr[index], false)
