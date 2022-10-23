@@ -1,4 +1,3 @@
-const { exec } = require('child_process')
 const { checkHostAvaliabity } = require('./checkHostAvaliabity')
 
 // Zbieramy na początek argumenty podane (w razie jakby był więcej niż jeden)
