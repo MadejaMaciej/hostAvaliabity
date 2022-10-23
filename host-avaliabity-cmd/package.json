@@ -1,0 +1,25 @@
+{
+  "name": "host-avaliabity-cmd",
+  "version": "1.0.0",
+  "description": "To program na zajecia z bezpieczenstwa systemow, ktory monitoruje hosty i uslugi, pokazuje stan dostepnosc i liczy prawdopodobienstwo zagrozenia, ze usluga serwerowa nie bedzie dostepna za pomoca konsoli.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MadejaMaciej/hostAvaliabity.git"
+  },
+  "keywords": [
+    "cmd",
+    "host",
+    "checking",
+    "host-avaliabity"
+  ],
+  "author": "Maciej Madejczyk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MadejaMaciej/hostAvaliabity/issues"
+  },
+  "homepage": "https://github.com/MadejaMaciej/hostAvaliabity#readme"
+}
