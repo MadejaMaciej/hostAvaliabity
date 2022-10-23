@@ -1,4 +1,5 @@
 const { exec } = require('child_process')
+const CHECK_TIME = 1000
 
 /**
  * Badanie czy host jest dostepny
@@ -17,9 +18,11 @@ function checkHostAvaliabity(args) {
         })
     })
 
+    // Sprawdzamy co 1000 milisekund pingiem czy host jest dostepny dla kazdego w liscie. To jest nieblokujace watku gdyz foreach dziala na zasadzie obietnic, 
+    // tak samo jak funkcja exec, ktora po zwroceniu tego elementu, wykonuje funkcje wyswietlania
     setInterval(async () => {
         fullElementsList.forEach((element, index, arr) => {
-            exec(`ping ${element.host} -n 1 -w 1000`, (error, stdout, stderr) => {
+            exec(`ping ${element.host} -n 1 -w ${CHECK_TIME}`, (error, stdout, stderr) => {
                 if (error) {
                     arr[index] = newElementParameters(arr[index], false)
                     return
@@ -32,9 +35,10 @@ function checkHostAvaliabity(args) {
 
                 arr[index] = newElementParameters(arr[index], true)
             })
+
             displayResultInConsole(fullElementsList)
         })
-    }, 1000)
+    }, CHECK_TIME)
 }
 
 /**
@@ -51,7 +55,7 @@ function newElementParameters(element, isUp) {
             time: element.time / 1 + 1,
             upTime: element.upTime / 1 + 1,
             downTime: element.downTime / 1,
-            failureProbability: (element.downTime / 1) / (element.time / 1 + 1) * 100,
+            failureProbability: Math.round((((element.downTime / 1) / (element.time / 1 + 1)) * 100) * 100) / 100,
         }
     }
 
@@ -61,7 +65,7 @@ function newElementParameters(element, isUp) {
         time: element.time / 1 + 1,
         upTime: element.upTime / 1,
         downTime: element.downTime / 1 + 1,
-        failureProbability: (element.downTime / 1 + 1) / (element.time / 1 + 1) * 100,
+        failureProbability: Math.round((((element.downTime / 1 + 1) / (element.time / 1 + 1)) * 100) * 100) / 100,
     }
 }
 
@@ -70,7 +74,8 @@ function newElementParameters(element, isUp) {
  * @param {lista} fullElementsList gotowych elementow do wyswietlenia
  */
 function displayResultInConsole(fullElementsList) {
-    console.log(fullElementsList)
+    process.stdout.write('\x1b[H\x1b[2J')
+    console.table(fullElementsList)
 }
 
 module.exports = { checkHostAvaliabity }
